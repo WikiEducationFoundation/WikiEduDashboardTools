@@ -1,11 +1,13 @@
 <?php
 
+$language = empty($_GET["lang"])? "en" : $_GET["lang"];
+
 $settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
 
-$hostname = "enwiki.labsdb";
+$hostname = $language . "wiki.labsdb";
 $username = $settings['client']['user'];
 $password = $settings['client']['password'];
-$db_name = "enwiki_p";
+$db_name = $language . "wiki_p";
 
 $con=mysql_connect($hostname,$username,$password);
 mysql_select_db($db_name,$con) or die ("Cannot connect the Database");
