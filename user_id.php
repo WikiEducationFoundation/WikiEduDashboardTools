@@ -2,12 +2,13 @@
 
 include 'common.php';
 
+if(isset($_GET["user_name"])) {
+  $user_name = $_GET["user_name"];
+}
+
 $query = <<<EOD
-SELECT  rev_user_text
-FROM  revision
-WHERE rev_page = 36892501
-AND   rev_user_text IN ($sql_user_ids)
-GROUP by rev_user_text
+SELECT user_id
+FROM user WHERE user_name = $user_name
 EOD;
 
 $sqlcode = mysql_query($query);
@@ -15,7 +16,7 @@ $sqlcode = mysql_query($query);
 $jsonObj= array();
 while($result=mysql_fetch_object($sqlcode))
 {
-  $jsonObj[] = $result;
+  $jsonObj = $result;
 }
 
 echo '{ "success": true, "data": ' . json_encode($jsonObj) . ' }';

@@ -10,7 +10,7 @@ $password = $settings['client']['password'];
 $db_name = $language . "wiki_p";
 
 $con=mysql_connect($hostname,$username,$password);
-mysql_select_db($db_name,$con) or die ("Cannot connect the Database");
+mysql_select_db($db_name,$con) or die ("Cannot connect to database");
 mysql_query("SET NAMES 'utf8'", $con);
 
 // // Confirmed working, should test with other endpoints
