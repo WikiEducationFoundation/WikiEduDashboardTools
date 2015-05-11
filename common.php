@@ -1,5 +1,7 @@
 <?php
 
+$namespaces = '0,1,2,3,4,5,10,11,118,119';
+
 $language = empty($_GET["lang"])? "en" : $_GET["lang"];
 
 $settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
@@ -40,6 +42,11 @@ if(isset($_GET["article_titles"])) {
   $article_titles = $_GET["article_titles"];
   array_walk($article_titles, 'clean_title');
   $sql_article_titles = implode(',', $article_titles);
+}
+
+if(isset($_GET["article_ids"])) {
+  $article_ids = $_GET["article_ids"];
+  $sql_article_ids = implode(',', $article_ids);
 }
 
 ?>

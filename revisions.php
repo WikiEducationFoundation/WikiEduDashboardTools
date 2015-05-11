@@ -10,7 +10,7 @@ SELECT g.page_id, g.page_title, g.page_namespace,
 FROM revision_userindex c
 LEFT JOIN revision_userindex p ON p.rev_id = c.rev_parent_id
 INNER JOIN page g ON g.page_id = c.rev_page
-WHERE g.page_namespace IN (0,2)
+WHERE g.page_namespace IN ($namespaces)
 AND c.rev_user_text IN ($sql_user_ids)
 AND c.rev_timestamp BETWEEN "$start" AND "$end"
 EOD;

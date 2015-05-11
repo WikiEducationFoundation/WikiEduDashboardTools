@@ -19,10 +19,20 @@ function clean_title(&$title, $key) {
 
 include 'common.php';
 
+$article_key = '';
+$sql_article_keys = '';
+if(isset($sql_article_titles)) {
+  $article_key = 'page_title';
+  $sql_article_keys = $sql_article_titles;
+} else if(isset($sql_article_ids)) {
+  $article_key = 'page_id';
+  $sql_article_keys = $sql_article_ids;
+}
+
 $query = <<<EOD
-SELECT page_title FROM page
-WHERE page_title IN ($sql_article_titles)
-AND page_namespace = 0
+SELECT page_id, page_title, page_namespace FROM page
+WHERE $article_key IN ($sql_article_keys)
+AND page_namespace IN ($namespaces)
 EOD;
 
 $sqlcode = mysql_query($query);
