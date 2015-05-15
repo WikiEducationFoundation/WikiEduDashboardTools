@@ -49,4 +49,9 @@ if(isset($_GET["article_ids"])) {
   $sql_article_ids = implode(',', $article_ids);
 }
 
+if(isset($_GET["revision_ids"])) {
+  $revision_ids = $_GET["revision_ids"];
+  $sql_rev_ids = implode(',', $revision_ids);
+}
+
 ?>
