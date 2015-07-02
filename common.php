@@ -33,6 +33,12 @@ if(isset($_GET["end"])) {
   $end = $_GET["end"];
 }
 
+if(isset($_GET["oauth_tags"])) {
+  $tags = implode(',', $_GET["oauth_tags"]);
+} else {
+  $tags = 'NULL';
+}
+
 if(isset($_GET["user_ids"])) {
   $user_ids = $_GET["user_ids"];
   $sql_user_ids = implode(',', $user_ids);
