@@ -10,6 +10,12 @@ if(isset($_GET["user_ids"])) {
 $auth_hostname = "centralauth.labsdb";
 $auth_db_name = "centralauth_p";
 
+if(isset($_GET["training_page_id"])) {
+  $training_page_id = $_GET["training_page_id"];
+} else {
+  $training_page_id = 36892501;
+}
+
 $auth_con=mysql_connect($auth_hostname, $username, $password);
 mysql_select_db($auth_db_name, $auth_con) or die ("Cannot connect to auth database");
 mysql_query("SET NAMES 'utf8'", $con);
@@ -24,7 +30,7 @@ FROM $auth_db_name.globaluser gu
 JOIN $db_name.user lu
 ON lu.user_name = gu.gu_name
 LEFT JOIN $db_name.revision rv
-ON rv.rev_page = 36892501 AND rv.rev_user_text = gu.gu_name
+ON rv.rev_page = $training_page_id AND rv.rev_user_text = gu.gu_name
 WHERE lu.user_id IN ($sql_user_ids)
 EOD;
 
