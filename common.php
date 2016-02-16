@@ -1,15 +1,31 @@
 <?php
 
+# FIXME: namespaces are different for each lang+project
 $namespaces = '0,1,2,3,4,5,10,11,118,119';
 
 $language = empty($_GET["lang"])? "en" : $_GET["lang"];
+$project = empty($_GET["project"])? "wikipedia" : $_GET["project"];
+
+$project_map = array(
+  'wikibooks' => 'wikibooks',
+  'wikidata' => 'wikidata',
+  'wikinews' => 'wikinews',
+  'wikipedia' => 'wiki',
+  'wikiquote' => 'wikiquote',
+  'wikisource' => 'wikisource',
+  'wikiversity' => 'wikiversity',
+  'wikivoyage' => 'wikivoyage',
+  'wiktionary' => 'wiktionary',
+);
+$short_project = $project_map[$project];
+$wiki_name = $language . $short_project;
 
 $settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
 
-$hostname = $language . "wiki.labsdb";
+$hostname = "{$wiki_name}.labsdb";
 $username = $settings['client']['user'];
 $password = $settings['client']['password'];
-$db_name = $language . "wiki_p";
+$db_name = "{$wiki_name}_p";
 
 $con=mysql_connect($hostname,$username,$password);
 mysql_select_db($db_name,$con) or die ("Cannot connect to database");
