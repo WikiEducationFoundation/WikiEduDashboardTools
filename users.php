@@ -1,26 +1,17 @@
 <?php
 
-include 'common.php';
-
-if(isset($_GET["user_ids"])) {
-  $user_ids = $_GET["user_ids"];
-  $sql_user_ids = implode(',', $user_ids);
-}
+require_once 'common.php';
 
 $auth_hostname = "centralauth.labsdb";
 $auth_db_name = "centralauth_p";
 
-if(isset($_GET["training_page_id"])) {
-  $training_page_id = $_GET["training_page_id"];
-} else {
-  $training_page_id = 36892501;
+$auth_db = new mysqli($auth_hostname, $username, $password, $auth_db_name);
+if ($auth_db->connect_errno > 0) {
+  die ("Cannot connect to CentralAuth database");
 }
+$auth_db->set_charset('utf8');
 
-$auth_con=mysql_connect($auth_hostname, $username, $password);
-mysql_select_db($auth_db_name, $auth_con) or die ("Cannot connect to auth database");
-mysql_query("SET NAMES 'utf8'", $con);
-
-$query = <<<EOD
+$query = "
 SELECT DISTINCT
   lu.user_id as id,
   gu.gu_name as wiki_id,
@@ -32,16 +23,6 @@ ON lu.user_name = gu.gu_name
 LEFT JOIN $db_name.revision rv
 ON rv.rev_page = $training_page_id AND rv.rev_user_text = gu.gu_name
 WHERE lu.user_id IN ($sql_user_ids)
-EOD;
+";
 
-$sqlcode = mysql_query($query);
-
-$jsonObj= array();
-while($result=mysql_fetch_object($sqlcode))
-{
-  $jsonObj[] = $result;
-}
-
-echo '{ "success": true, "data": ' . json_encode($jsonObj) . ' }';
-
-?>
+echo_query_results($query);

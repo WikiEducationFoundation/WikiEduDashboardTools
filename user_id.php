@@ -1,24 +1,10 @@
 <?php
 
-include 'common.php';
+require_once 'common.php';
 
-if(isset($_GET["user_name"])) {
-  $user_name = $_GET["user_name"];
-}
-
-$query = <<<EOD
+$query = "
 SELECT user_id
 FROM user WHERE user_name = $user_name
-EOD;
+";
 
-$sqlcode = mysql_query($query);
-
-$jsonObj= array();
-while($result=mysql_fetch_object($sqlcode))
-{
-  $jsonObj = $result;
-}
-
-echo '{ "success": true, "data": ' . json_encode($jsonObj) . ' }';
-
-?>
+echo_query_results($query);
