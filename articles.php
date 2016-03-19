@@ -9,20 +9,28 @@ function clean_title(&$title, $key) {
   return $title;
 }
 
-$article_key = '';
-$sql_article_keys = '';
-if(isset($sql_article_titles)) {
-  $article_key = 'page_title';
-  $sql_article_keys = $sql_article_titles;
-} elseif(isset($sql_article_ids)) {
-  $article_key = 'page_id';
-  $sql_article_keys = $sql_article_ids;
+function make_articles_query() {
+	global $namespaces, $sql_article_ids, $sql_article_titles;
+
+	$article_key = '';
+	$sql_article_keys = '';
+	if(isset($sql_article_titles)) {
+	  $article_key = 'page_title';
+	  $sql_article_keys = $sql_article_titles;
+	} elseif(isset($sql_article_ids)) {
+	  $article_key = 'page_id';
+	  $sql_article_keys = $sql_article_ids;
+	}
+
+	$query = "
+	SELECT page_id, page_title, page_namespace FROM page
+	WHERE $article_key IN ($sql_article_keys)
+	AND page_namespace IN ($namespaces)
+	";
+
+	return $query;
 }
 
-$query = "
-SELECT page_id, page_title, page_namespace FROM page
-WHERE $article_key IN ($sql_article_keys)
-AND page_namespace IN ($namespaces)
-";
-
-echo_query_results($query);
+if (php_sapi_name() !== 'cli' ) {
+	echo_query_results(make_articles_query());
+}
