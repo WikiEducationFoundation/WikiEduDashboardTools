@@ -1,7 +1,7 @@
 <?php
 
 function get_db() {
-	global $username, $password, $db_name;
+	global $username, $password, $db_name, $wiki_name;
 
 	$settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
 	
@@ -127,6 +127,11 @@ function load_parameters($query_array) {
 function echo_query_results($query) {
 	global $db;
 	$result = $db->query($query);
+
+	if ($result === false) {
+		echo '{ "success": false, "data": [] }';
+		return;
+	}
 
 	$jsonData = json_encode($result->fetch_all(MYSQLI_ASSOC));
 
