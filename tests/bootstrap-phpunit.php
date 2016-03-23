@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../common.php';
-require_once __DIR__ . '/../articles.php';
-require_once __DIR__ . '/../revisions.php';
-require_once __DIR__ . '/../users.php';
-require_once __DIR__ . '/../user_id.php';
-require_once __DIR__ . '/../revisions_by_user_id.php';
+require_once __DIR__ . '/../public_html/common.php';
+require_once __DIR__ . '/../public_html/articles.php';
+require_once __DIR__ . '/../public_html/revisions.php';
+require_once __DIR__ . '/../public_html/users.php';
+require_once __DIR__ . '/../public_html/user_id.php';
+#require_once __DIR__ . '/../public_html/revisions_by_user_id.php';
 
 class MockDbEscape {
 	public function escape_string($str) {
