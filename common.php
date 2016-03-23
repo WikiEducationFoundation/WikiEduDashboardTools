@@ -4,7 +4,7 @@ function get_db() {
 	global $username, $password, $db_name, $wiki_name;
 
 	$settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
-	
+
 	$hostname = "{$wiki_name}.labsdb";
 	$username = $settings['client']['user'];
 	$password = $settings['client']['password'];
@@ -19,7 +19,7 @@ function get_db() {
 }
 
 function get_auth_db() {
-	global $username, $password, $db_name;
+	global $username, $password, $db_name, $auth_db_name;
 
 	$auth_hostname = "centralauth.labsdb";
 	$auth_db_name = "centralauth_p";

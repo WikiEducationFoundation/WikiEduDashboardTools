@@ -3,7 +3,7 @@
 require_once 'common.php';
 
 function make_users_query() {
-	global $username, $password, $db_name, $training_page_id, $sql_user_ids;
+	global $username, $password, $db_name, $auth_db_name, $training_page_id, $sql_user_ids;
 
 	$auth_db = get_auth_db();
 
