@@ -1,11 +1,17 @@
 <?php
-
 require_once 'common.php';
 
-function make_revisions_query() {
-	global $end, $namespaces, $sql_rev_ids, $sql_user_ids, $start, $tags;
+function make_revisions_by_user_id_query() {
+	global $end, $namespaces, $sql_rev_ids, $sql_user_ids, $sql_usernames,
+		$start, $tags;
 
-	if(isset($sql_user_ids) && isset($namespaces)) {
+	if (isset($sql_usernames)) {
+	  $user_clause = "AND c.rev_user_text IN ($sql_usernames)";
+	} elseif (isset($sql_user_ids)) {
+	  $user_clause = "AND c.rev_user IN ($sql_user_ids)";
+	}
+
+	if(isset($user_clause) && isset($namespaces)) {
 	  $query = "
 		SELECT g.page_id, g.page_title, g.page_namespace,
 		  c.rev_id, c.rev_timestamp, c.rev_user_text, c.rev_user,
@@ -19,7 +25,7 @@ function make_revisions_query() {
 		  ON ct.ct_rev_id = c.rev_id
 		  AND ct.ct_tag IN ($tags)
 		WHERE g.page_namespace IN ($namespaces)
-		AND c.rev_user IN ($sql_user_ids)
+		{$user_clause}
 		AND c.rev_timestamp BETWEEN $start AND $end
 	  ";
 	} else if(isset($sql_rev_ids)) {
@@ -33,5 +39,5 @@ function make_revisions_query() {
 }
 
 if (php_sapi_name() !== 'cli' ) {
-	echo_query_results(make_revisions_query());
+	echo_query_results(make_revisions_by_user_id_query());
 }
