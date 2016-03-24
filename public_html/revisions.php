@@ -1,7 +1,7 @@
 <?php
 require_once 'common.php';
 
-function make_revisions_by_user_id_query() {
+function make_revisions_by_user_query() {
 	global $end, $namespaces, $sql_rev_ids, $sql_user_ids, $sql_usernames,
 		$start, $tags;
 
