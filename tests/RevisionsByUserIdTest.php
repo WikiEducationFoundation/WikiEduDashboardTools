@@ -1,6 +1,6 @@
 <?php
 
-class RevisionsByUserIdTest extends PHPUnit_Framework_TestCase {
+class RevisionsByUserTest extends PHPUnit_Framework_TestCase {
 	public function testQueryByTitle() {
 		load_parameters(array(
 			'start' => '20130101',
@@ -23,7 +23,7 @@ class RevisionsByUserIdTest extends PHPUnit_Framework_TestCase {
 			AND c.rev_user_text IN ('Admin','北岛','Bak\'un')
 			AND c.rev_timestamp BETWEEN '20130101' AND '20170203'
 		  ";
-		$query = make_revisions_by_user_id_query();
+		$query = make_revisions_by_user_query();
 		$this->assertEquals(strip($expected), strip($query));
 	}
 }

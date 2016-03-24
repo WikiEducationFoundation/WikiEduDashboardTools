@@ -39,5 +39,5 @@ function make_revisions_by_user_query() {
 }
 
 if (php_sapi_name() !== 'cli' ) {
-	echo_query_results(make_revisions_by_user_id_query());
+	echo_query_results(make_revisions_by_user_query());
 }
