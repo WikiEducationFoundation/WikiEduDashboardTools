@@ -2,6 +2,7 @@
 
 require_once 'common.php';
 
+// TODO: Is it useful to provide a batch query?
 function make_user_id_query() {
 	global $user_name;
 	$query = "
