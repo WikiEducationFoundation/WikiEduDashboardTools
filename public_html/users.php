@@ -9,9 +9,9 @@ function make_users_query() {
 	$auth_db = get_auth_db();
 
 	if (isset($sql_usernames)) {
-	  $user_clause = "AND lu.user_name IN ($sql_usernames)";
+	  $user_clause = "WHERE lu.user_name IN ($sql_usernames)";
 	} elseif (isset($sql_user_ids)) {
-	  $user_clause = "AND lu.user_id IN ($sql_user_ids)";
+	  $user_clause = "WHERE lu.user_id IN ($sql_user_ids)";
 	}
 	if (!isset($user_clause)) {
 		return;
@@ -28,7 +28,6 @@ function make_users_query() {
 	ON lu.user_name = gu.gu_name
 	LEFT JOIN $db_name.revision_userindex rv
 	ON rv.rev_page = $training_page_id AND rv.rev_user_text = gu.gu_name
-	WHERE
 	{$user_clause}
 	";
 	return $query;
