@@ -67,7 +67,11 @@ function load_wiki_name($query_array) {
 	  'wiktionary' => 'wiktionary',
 	);
 	$short_project = $project_map[$project];
-	$wiki_name = $language . $short_project;
+	if ( $project === 'wikidata' ) {
+		$wiki_name = 'wikidatawiki';
+	} else {
+		$wiki_name = $language . $short_project;
+	}
 }
 
 function load_parameters($query_array) {
