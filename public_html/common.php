@@ -58,6 +58,7 @@ function load_wiki_name($query_array) {
 	$project_map = array(
 	  'wikibooks' => 'wikibooks',
 	  'wikidata' => 'wikidata',
+	  'wikimedia' => 'wikimedia',
 	  'wikinews' => 'wikinews',
 	  'wikipedia' => 'wiki',
 	  'wikiquote' => 'wikiquote',
@@ -69,6 +70,10 @@ function load_wiki_name($query_array) {
 	$short_project = $project_map[$project];
 	if ( $project === 'wikidata' ) {
 		$wiki_name = 'wikidatawiki';
+	}	else if ( $project === 'wikisource' && empty($language)? ) {
+		$wiki_name = 'sourceswiki';
+	}	else if ( $project === 'wikimedia' && $language === 'incubator' ) {
+		$wiki_name = 'incubatorwiki';
 	} else {
 		$wiki_name = $language . $short_project;
 	}
