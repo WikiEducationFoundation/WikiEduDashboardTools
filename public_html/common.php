@@ -43,16 +43,18 @@ function escape_implode($args) {
 }
 
 function load_wiki_name($query_array) {
-	global $language, $project, $wiki_name;
+	global $language, $project, $database, $wiki_name;
 
 	$language = empty($query_array["lang"])? "en" : $query_array["lang"];
 	$project = empty($query_array["project"])? "wikipedia" : $query_array["project"];
+	$database = empty($query_array["db"])? "none" : $query_array["db"];
 
 	// Abort if we received garbage.
 	if ( !preg_match('/^[a-z]+$/', $language )
-		|| !preg_match('/^[a-z]+$/', $project )
+	  || !preg_match('/^[a-z]+$/', $project )
+	  || !preg_match('/^[a-z]+$/', $database )
 	) {
-		exit;
+	  exit;
 	}
 
 	$project_map = array(
@@ -67,10 +69,14 @@ function load_wiki_name($query_array) {
 	  'wiktionary' => 'wiktionary',
 	);
 	$short_project = $project_map[$project];
-	if ( $project === 'wikidata' ) {
+
+	// We set database name directly if received as a valid parameter
+	if ( !($database === 'none' ) ) {
+	  $wiki_name = $database;
+	} elseif ( $project === 'wikidata' ) {
 		$wiki_name = 'wikidatawiki';
 	} else {
-		$wiki_name = $language . $short_project;
+	  $wiki_name = $language . $short_project;
 	}
 }
 
