@@ -23,7 +23,7 @@ function make_articles_query() {
 	}
 
 	$query = "
-	SELECT page_id, page_title, page_namespace FROM page
+	SELECT page_id, page_title, page_namespace, page_is_redirect FROM page
 	WHERE $article_key IN ($sql_article_keys)
 	AND page_namespace IN ($namespaces)
 	";
