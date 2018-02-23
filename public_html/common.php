@@ -116,6 +116,11 @@ function load_parameters($query_array) {
 	  $sql_article_titles = escape_implode($article_titles);
 	}
 
+	if(isset($query_array["post_article_titles"])) {
+	  $article_titles = $query_array["post_article_titles"];
+	  $sql_article_titles = escape_implode($article_titles);	
+	}
+
 	if(isset($query_array["article_ids"])) {
 	  $sql_article_ids = escape_implode($query_array["article_ids"]);
 	}
@@ -148,8 +153,15 @@ function echo_query_results($query) {
 // Main.
 if (php_sapi_name() !== 'cli') {
 	global $db;
-	load_wiki_name($_GET);
-	$db = get_db();
-	load_parameters($_GET);
+	if ($_SERVER["REQUEST_METHOD"] === "POST") {
+		load_wiki_name($_POST);
+		$db = get_db();
+		load_parameters($_POST);	
+	}
+	else {
+		load_wiki_name($_GET);
+		$db = get_db();
+		load_parameters($_GET);
+	}
 	// Control flow continues in endpoint module.
 }
