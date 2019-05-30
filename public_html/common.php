@@ -78,7 +78,7 @@ function load_wiki_name($query_array) {
 }
 
 function load_parameters($query_array) {
-	global $namespaces, $start, $end, $tags, $sql_user_ids, $sql_usernames,
+	global $namespaces, $start, $end, $tags, $sql_usernames,
 		$user_name, $sql_article_titles, $sql_article_ids, $sql_rev_ids,
 		$training_page_id;
 
@@ -96,10 +96,6 @@ function load_parameters($query_array) {
 	  $tags = escape_implode($query_array["oauth_tags"]);
 	} else {
 	  $tags = 'NULL';
-	}
-
-	if(isset($query_array["user_ids"])) {
-	  $sql_user_ids = escape_implode($query_array["user_ids"]);
 	}
 
 	if(isset($query_array["usernames"])) {

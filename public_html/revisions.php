@@ -2,13 +2,11 @@
 require_once 'common.php';
 
 function make_revisions_by_user_query() {
-	global $end, $namespaces, $sql_rev_ids, $sql_user_ids, $sql_usernames,
+	global $end, $namespaces, $sql_rev_ids, $sql_usernames,
 		$start, $tags;
 
 	if (isset($sql_usernames)) {
-	  $user_clause = "AND c.rev_user_text IN ($sql_usernames)";
-	} elseif (isset($sql_user_ids)) {
-	  $user_clause = "AND c.rev_user IN ($sql_user_ids)";
+	  $user_clause = "AND a.actor_name IN ($sql_usernames)";
 	}
 
 	if(isset($user_clause) && isset($namespaces)) {
@@ -19,6 +17,7 @@ function make_revisions_by_user_query() {
 			case when c.rev_parent_id = 0 then 'true' else 'false' end as new_article,
 			CAST(c.rev_len AS SIGNED) - CAST(IFNULL(p.rev_len, 0) AS SIGNED) AS byte_change
 		FROM revision_userindex c
+		JOIN actor a ON a.actor_id = c.rev_actor
 		LEFT JOIN revision_userindex p ON p.rev_id = c.rev_parent_id
 		INNER JOIN page g ON g.page_id = c.rev_page
 		LEFT JOIN change_tag_def ctd
