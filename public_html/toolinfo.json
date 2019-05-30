@@ -1,0 +1,9 @@
+{
+    "name" : "programs-and-events-dashboard",
+    "title" : "Programs and Events Dashboard",
+    "description" : "A comprehensive app to organize and track Edit-a-thons, Education Program classes, and other programs. Features include training modules, automatically updated editing stats, article quality visualizations, and more.",
+    "url" : "https://outreachdashboard.wmflabs.org",
+    "keywords" : "editathons, newcomers, training, statistics, metrics, education program",
+    "author" : "Wiki Education Foundation",
+    "repository" : "https://github.com/WikiEducationFoundation/WikiEduDashboard"
+}
