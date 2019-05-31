@@ -12,7 +12,7 @@ function make_revisions_by_user_query() {
 	if(isset($user_clause) && isset($namespaces)) {
 	  $query = "
 		SELECT g.page_id, g.page_title, g.page_namespace,
-			c.rev_id, c.rev_timestamp, c.rev_user_text, c.rev_user,
+			c.rev_id, c.rev_timestamp, a.actor_name AS rev_user_text, a.actor_user AS rev_user,
 			case when ct.ct_tag_id IS NULL then 'false' else 'true' end as system,
 			case when c.rev_parent_id = 0 then 'true' else 'false' end as new_article,
 			CAST(c.rev_len AS SIGNED) - CAST(IFNULL(p.rev_len, 0) AS SIGNED) AS byte_change
