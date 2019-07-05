@@ -77,6 +77,20 @@ function load_wiki_name($query_array) {
 	}
 }
 
+function load_special_namespaces() {
+	global $wiki_name, $namespaces;
+
+	// If special namespaces have to be tracked for a wiki,
+	// we do so by appending the special namespaces
+	$special_namespaces = array(
+		'wikidatawiki' => '120,122,146'
+	);
+
+	if(isset($special_namespaces[$wiki_name])) {
+		$namespaces = $namespaces . ',' . $special_namespaces[$wiki_name];
+	}
+}
+
 function load_parameters($query_array) {
 	global $namespaces, $start, $end, $tags, $sql_usernames,
 		$user_name, $sql_article_titles, $sql_article_ids, $sql_rev_ids,
@@ -84,6 +98,8 @@ function load_parameters($query_array) {
 
 	# FIXME: namespaces are different for each lang+project
 	$namespaces = '0,1,2,3,4,5,10,11,118,119';
+
+	load_special_namespaces();
 
 	if(isset($query_array["start"])) {
 	  $start = escape_and_quote($query_array["start"]);
@@ -114,7 +130,7 @@ function load_parameters($query_array) {
 
 	if(isset($query_array["post_article_titles"])) {
 	  $article_titles = $query_array["post_article_titles"];
-	  $sql_article_titles = escape_implode($article_titles);	
+	  $sql_article_titles = escape_implode($article_titles);
 	}
 
 	if(isset($query_array["article_ids"])) {
@@ -152,7 +168,7 @@ if (php_sapi_name() !== 'cli') {
 	if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		load_wiki_name($_POST);
 		$db = get_db();
-		load_parameters($_POST);	
+		load_parameters($_POST);
 	}
 	else {
 		load_wiki_name($_GET);
