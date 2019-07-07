@@ -78,16 +78,27 @@ function load_wiki_name($query_array) {
 }
 
 function load_special_namespaces() {
-	global $wiki_name, $namespaces;
+	global $database, $project, $namespaces;
 
 	// If special namespaces have to be tracked for a wiki,
 	// we do so by appending the special namespaces
 	$special_namespaces = array(
-		'wikidatawiki' => '120,122,146'
+		// Special explicit DB names
+		'wikidatawiki' => '120,122,146', // Property, Query, Lexeme edits
+		'commonswiki' => '6', // Files edits
+
+		// Projects
+		'wiktionary' => '100,106', // Appendix, Rhymes edits
+		'wikisource' => '100,102,104,106,114', // Portal, Author, Page, Index, Translation edits
+		'wikibooks' => '102,110', // Cookbook, Wikijunior edits
+		'wikiversity' => '100,102,104,106' // School, Portal, Topics, Collections edits
 	);
 
-	if(isset($special_namespaces[$wiki_name])) {
-		$namespaces = $namespaces . ',' . $special_namespaces[$wiki_name];
+	// Use special database names if specified explicitly or
+	// use project to determine the content namespaces.
+	$key = empty($database) ? $project : $database;
+	if(isset($special_namespaces[$key])) {
+		$namespaces = $namespaces . ',' . $special_namespaces[$key];
 	}
 }
 
