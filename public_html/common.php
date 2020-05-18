@@ -5,7 +5,7 @@ function get_db() {
 
 	$settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
 
-	$hostname = "{$wiki_name}.labsdb";
+	$hostname = "{$wiki_name}.web.db.svc.eqiad.wmflabs";
 	$username = $settings['client']['user'];
 	$password = $settings['client']['password'];
 	$db_name = "{$wiki_name}_p";
