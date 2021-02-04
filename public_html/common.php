@@ -164,7 +164,7 @@ function echo_query_results($query) {
 	$result = $db->query($query);
 
 	if ($result === false) {
-		echo '{ "success": false, "data": [], "query": ' . $query . ' }';
+		echo '{ "success": false, "data": [], "query": "' . $query . '" }';
 		return;
 	}
 
