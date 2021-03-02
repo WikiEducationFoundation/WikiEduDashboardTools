@@ -50,9 +50,9 @@ function load_wiki_name($query_array) {
 	$database = empty($query_array["db"]) ? "" : $query_array["db"];
 
 	// Abort if we received garbage.
-	if ( !preg_match('/^[a-z]+$/', $language )
+	if ( !preg_match('/^[a-z_]+$/', $language )
 	  || !preg_match('/^[a-z]+$/', $project )
-	  || !preg_match('/^[a-z]*$/', $database )
+	  || !preg_match('/^[a-z_]*$/', $database )
 	) {
 	  exit;
 	}
