@@ -3,7 +3,7 @@
 function get_db() {
 	global $username, $password, $db_name, $wiki_name;
 
-	$settings = parse_ini_file("/data/project/wikiedudashboard/replica.my.cnf", true);
+	$settings = parse_ini_file("../replica.my.cnf", true);
 
 	$hostname = "{$wiki_name}.web.db.svc.wikimedia.cloud";
 	$username = $settings['client']['user'];
