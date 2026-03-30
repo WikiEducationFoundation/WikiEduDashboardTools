@@ -15,7 +15,15 @@ function make_revisions_by_user_query() {
 			c.rev_id, c.rev_timestamp, a.actor_name AS rev_user_text, a.actor_user AS rev_user,
 			case when ct.ct_tag_id IS NULL then 'false' else 'true' end as system,
 			case when c.rev_parent_id = 0 then 'true' else 'false' end as new_article,
-			CAST(c.rev_len AS SIGNED) - CAST(IFNULL(p.rev_len, 0) AS SIGNED) AS byte_change
+			CASE 
+				WHEN p.rev_len IS NOT NULL THEN CAST(c.rev_len AS SIGNED) - CAST(p.rev_len AS SIGNED)
+				ELSE CAST(c.rev_len AS SIGNED) - CAST(IFNULL(
+					(SELECT rev_len FROM revision 
+					 WHERE rev_page = c.rev_page 
+					   AND rev_id < c.rev_id 
+					 ORDER BY rev_id DESC LIMIT 1), 
+				0) AS SIGNED)
+			END AS byte_change
 		FROM revision_userindex c
 		JOIN actor a ON a.actor_id = c.rev_actor
 		LEFT JOIN revision_userindex p ON p.rev_id = c.rev_parent_id
