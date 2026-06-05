@@ -1,5 +1,25 @@
 <?php
 
+// Return mysqli errors as states to check (connect_errno, query() === false)
+// rather than thrown exceptions. PHP 8.1+ defaults to throwing, which would
+// turn a failed connection or query into an uncaught exception and a bare
+// HTTP 500 with an empty body; this code is written to inspect the error
+// states instead so it can report a useful message.
+mysqli_report(MYSQLI_REPORT_OFF);
+
+// Emit a JSON error body and stop, instead of letting a connection failure
+// surface as an empty HTTP 500. Uses 502 because the failure is upstream
+// (the replica database), not in this request.
+function fail_db_connection($db_name, $hostname, $error) {
+	http_response_code(502);
+	header('Content-Type: application/json');
+	echo json_encode(array(
+		"success" => false,
+		"error" => "Cannot connect to database {$db_name} on {$hostname}: {$error}"
+	));
+	exit;
+}
+
 function get_db() {
 	global $username, $password, $db_name, $wiki_name;
 
@@ -10,9 +30,9 @@ function get_db() {
 	$password = $settings['client']['password'];
 	$db_name = "{$wiki_name}_p";
 
-	$db = new mysqli($hostname, $username, $password, $db_name);
+	$db = @new mysqli($hostname, $username, $password, $db_name);
 	if ($db->connect_errno > 0) {
-	  die ("Cannot connect to database");
+	  fail_db_connection($db_name, $hostname, $db->connect_error);
 	}
 	$db->set_charset('utf8');
 	return $db;
@@ -24,9 +44,9 @@ function get_auth_db() {
 	$auth_hostname = "centralauth.labsdb";
 	$auth_db_name = "centralauth_p";
 
-	$auth_db = new mysqli($auth_hostname, $username, $password, $auth_db_name);
+	$auth_db = @new mysqli($auth_hostname, $username, $password, $auth_db_name);
 	if ($auth_db->connect_errno > 0) {
-	  die ("Cannot connect to CentralAuth database");
+	  fail_db_connection($auth_db_name, $auth_hostname, $auth_db->connect_error);
 	}
 	$auth_db->set_charset('utf8');
 	return $auth_db;
